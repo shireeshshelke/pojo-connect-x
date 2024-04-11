@@ -4,4 +4,5 @@ public class PojoConnectConstants {
 	public static final String BLANK = "";
 	public static final String FLATTEN_SEP = ".";
 	public static final String FLATTEN_PARENT = "$";
+	public static final String DOT_SEP = "\\.";
 }

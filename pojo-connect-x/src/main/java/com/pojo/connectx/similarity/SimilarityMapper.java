@@ -11,20 +11,29 @@ import java.util.Set;
 
 import com.pojo.connectx.similarity.SimilarityChecker.SIMILARITY_ALGO;
 
-public class SimilarityMapper {
+public class SimilarityMapper implements ISimilarityMapper {
 	SimilarityChecker checker;
 
 	public SimilarityMapper() {
 		checker = new SimilarityChecker();
 	}
 
+	@Override
 	public Map<String, SimilarityOutputPojo> mapStrings(LinkedList<SimilarityInputPojo> source, LinkedList<SimilarityInputPojo> target) {
 		return mapStrings(source, target, SIMILARITY_ALGO.LongestCommonSubsequence);
 	}
 
-	public Map<String, SimilarityOutputPojo> mapStrings(LinkedList<SimilarityInputPojo> source, LinkedList<SimilarityInputPojo> target, SIMILARITY_ALGO longestcommonsubsequence) {
+	@Override
+	public Map<String, SimilarityOutputPojo> mapStrings(LinkedList<SimilarityInputPojo> source, LinkedList<SimilarityInputPojo> target, SimilarityAlgo algo) {
+
+		SIMILARITY_ALGO simAlgo = SIMILARITY_ALGO.LongestCommonSubsequence;
+		if (algo instanceof SIMILARITY_ALGO) {
+			simAlgo = (SIMILARITY_ALGO) algo;
+		}else {
+			// TODO: Log this
+		}
 		
-		List<SimilarityOutputPojo> allDists = getSortedListOfSimilarityScore(source, target, longestcommonsubsequence);
+		List<SimilarityOutputPojo> allDists = getSortedListOfSimilarityScore(source, target, simAlgo);
 		Map<String, SimilarityOutputPojo> mapping = getBestMappingFromList(allDists, source.size(), target.size());
 		
 		return mapping;
